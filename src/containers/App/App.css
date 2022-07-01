@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -36,6 +36,27 @@
   }
 }
 
+.navbar{
+  margin-left: 100px;
+  margin-left: 100px;
+}
+.link{
+  text-decoration: none;
+  color: white;
+  margin: 10px;
+}
+.link.active{
+  color: #FAB217;
+}
+
+.connectBtn {
+  
+  border-radius: 25px !important;
+  border: 2px solid #FAB217 !important;
+  
+  color: black;
+
+}
 
 .top-card{
   /* position: absolute; */
@@ -50,7 +71,6 @@
   color: #FFFFFF;
   /* background: rgba(46, 114, 210, 0.1); */
   background: #0E215C;
-  
   border: 2px solid #2E72D2;
   border-radius: 5px;
 }
@@ -59,4 +79,56 @@
   background: #1E2F64;
   padding: 6px 10px;
   border-radius: 5px;
+}
+
+
+.text-0 {
+  font-size: 12px;
+}
+
+.jbtitle1 {
+  font-size: 24px;
+}
+
+.jbtitle2 {
+  font-size: 15px;
+  font-weight: bolder;
+}
+
+.jbbodybox {
+  margin-top: 50px;
+  color: white;
+  background: #0E215C;
+  border: 2px solid #2E72D2;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.jbbodytextfield {
+  border: 2px solid #2E72D2;
+  color: white !important;
+  width: 450px;
+}
+
+.jbbodybutton {
+  margin-top: 50px !important;
+  margin-left: 350px !important;
+  background-color: #FAB217  !important;
+  border-radius: 25px !important;
+  width: 100px !important;
+  color: black !important;
+}
+
+.jbdivider {
+  margin-top: 20px !important;
+  /* border: solid 1px #2E72D2 !important; */
+  background-color: #2E72D2 !important;
+}
+
+.jbbodybox2{
+  margin-top: 30px !important;
+}
+
+.jbbodysubbox {
+  margin-top: -20px !important;
 }

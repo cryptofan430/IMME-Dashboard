@@ -202,6 +202,15 @@ contract ImmeStaking is Ownable {
 
     }
 
+    function getUserBalance(address user) public view returns(uint256) {
+        Staker memory staker =  stakers[user];
+        return staker.balance;
+    }
+
+    function getClaimable(address user) public view returns(uint256) {
+        return reward(user);
+    }
+
     function staking(uint256 _amount) public {
         require(_amount > 0, "There isn't enough your balance");
         busdToken.transferFrom(msg.sender, address(this), _amount);
@@ -214,7 +223,7 @@ contract ImmeStaking is Ownable {
         
         stakers[msg.sender].startTime = block.timestamp;
         stakers[msg.sender].balance = out[1];
-        totalStaked += _amount;
+        totalStaked += stakers[msg.sender].balance;
         totalUsers ++;
 
         addLiquidity(address(busdToken), address(immeToken), _amount, stakers[msg.sender].balance);
@@ -226,6 +235,8 @@ contract ImmeStaking is Ownable {
         uint256 rewardAmount = reward(msg.sender); 
 
         totalRewards += rewardAmount;
+        totalStaked -= stakers[msg.sender].balance;
+
         uint256 amount = stakers[msg.sender].balance + rewardAmount;
         
         stakers[msg.sender].balance = 0;
@@ -237,41 +248,32 @@ contract ImmeStaking is Ownable {
 
         uint256 stime = block.timestamp - stakers[_address].startTime;
 
-        uint256 cnt1 = stime / sTime1; 
-        uint256 cnt2 = stime / sTime2; 
-        uint256 cnt3 = stime / sTime3; 
-        uint256 cnt4 = stime / sTime4; 
-        uint256 cnt5 = stime / sTime5; 
-        uint256 cnt6 = stime / sTime6; 
-        uint256 cnt7 = stime / sTime7; 
+        uint256 amount = 0;
 
-        uint256 amount;
-
-        if(cnt1 == 1) {
-            amount = stakers[_address].balance * 15 / 1000;
-        }
-        else if(cnt2 >= 1 && cnt2 < 3) {
-            amount = stakers[_address].balance * 35 / 1000;
-        }
-        else if(cnt3 == 1) {
-            amount = stakers[_address].balance * 75 / 1000;
-        }
-        else if(cnt4 == 1) {
-            amount = stakers[_address].balance * 16 / 100;
-        }
-        else if(cnt5 <= 1) {
-            amount = stakers[_address].balance * 25 / 100;
-        }
-        else if(cnt6 <= 1) {
-            amount = stakers[_address].balance * 75 / 100;
-        }
-        else if(cnt7 <= 1) {
-            amount = stakers[_address].balance * 2;
-        }
-        else{
+        if(stime >= sTime8) {
             amount = stakers[_address].balance * 5;
         }
-
+        else if(stime >= sTime7) {
+            amount = stakers[_address].balance * 2;
+        }
+        else if(stime >= sTime6) {
+            amount = stakers[_address].balance * 75 / 100;
+        }
+        else if(stime >= sTime5) {
+            amount = stakers[_address].balance * 25 / 100;
+        }
+        else if(stime >= sTime4) {
+            amount = stakers[_address].balance * 16 / 100;
+        }
+        else if(stime >= sTime3) {
+            amount = stakers[_address].balance * 75 / 1000;
+        }
+        else if(stime >= sTime2) {
+            amount = stakers[_address].balance * 35 / 1000;
+        }
+        else if(stime >= sTime1){
+            amount = stakers[_address].balance * 15 / 1000;
+        }
         return amount;
     }
                                                                     

@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
+import { Container } from "@material-ui/core";
 
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -89,8 +90,7 @@ function Navbar(props) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-          
-      <AppBar component="nav" style={{ background: 'transparent', boxShadow: 'none'}}>
+      <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -108,7 +108,7 @@ function Navbar(props) {
           >
             <Logo />
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box  sx={{ display: { xs: 'none', sm: 'block' } }}>
                           
             <NavLink to={'/stake'} className='link'>
               {'Staking'}
@@ -118,7 +118,7 @@ function Navbar(props) {
             {'Reward'}
             </NavLink>
               
-            <Button  sx={{ color: '#fff' }} onClick={handleConnect}>
+            <Button className='connectBtn' sx={{ color: '#fff' }} onClick={handleConnect}>
               {accountAddress? `${accountAddress.slice(0, 4)}...
                 ${accountAddress.slice(38, 42)}` : 'Connect'}
             </Button>

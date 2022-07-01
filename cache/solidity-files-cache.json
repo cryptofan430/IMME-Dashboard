@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "E:\\Projects\\#onprogress\\IMNE\\IMME-Dashboard\\contracts\\Staking.sol": {
-      "lastModificationDate": 1656669777135,
-      "contentHash": "1ac254dc22672ae785265f01bac4a2a9",
+      "lastModificationDate": 1656712377113,
+      "contentHash": "79137e597266e9031875a6f2d13a6a19",
       "sourceName": "contracts/Staking.sol",
       "solcConfig": {
         "version": "0.8.4",
