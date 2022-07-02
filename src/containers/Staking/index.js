@@ -73,7 +73,7 @@ function OutlinedCard(props) {
 }
 
 const Playground = (props) => {
-  const {balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake} = props;
+  const {balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake, working} = props;
   return (
     <Container className="jbbodybox">
       <Grid container direction='row' sx={{marginTop:'30px'}}>
@@ -99,7 +99,7 @@ const Playground = (props) => {
             }}
             className='jbbodytextfield'
           />
-          <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake}>STAKE</Button>
+          <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake} disabled={working}>STAKE</Button>
         </Grid>
       </Grid>
       <Divider className='jbdivider' />
@@ -134,6 +134,7 @@ export default function Staking() {
   const { ethereum } = window;
   const [errorText, setErrorText] = useState('error');
   const [amountToStake, setAmountToStake] = useState(null);
+  const [working, setWorking] = useState(false);
 
   const re = /[0-9]+/g;
 
@@ -216,6 +217,7 @@ export default function Staking() {
       const stakingContract = new ethers.Contract(sTokenAddress,StakingToken.abi, signer)
       
       try {
+        setWorking(true);
         const tx = await stakingContract.approve(stakingAddress,ethers.utils.parseUnits(depositAmount,18));
         await tx.wait();
         const tx1 = await contract.staking(ethers.utils.parseUnits(depositAmount,18))
@@ -225,6 +227,7 @@ export default function Staking() {
       } catch (err) {
         console.log("Error: ", err)
       }
+      setWorking(false);
     }
   }
   async function unstake() {
@@ -271,6 +274,7 @@ export default function Staking() {
           errorText = {errorText} 
           setMax = {setMax} 
           amountToStake = {amountToStake} 
+          working = {working}
           />
       </Container>
         
