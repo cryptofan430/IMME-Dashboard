@@ -98,7 +98,7 @@ function Navbar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none'}}>
-        <Toolbar>
+        <Toolbar style={{  marginLeft:'9%', marginRight:'9%', marginTop:'10px'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -117,12 +117,12 @@ function Navbar() {
           </Typography>
           <Box  sx={{ display: { xs: 'none', sm: 'block' } }}>
                           
-            <NavLink to={'/'} className={location?.pathname=='/'?'stake':''}
+            <NavLink to={'/'} style={{fontSize: 20}} className={location?.pathname=='/'?'stake navlink':'navlink'}
             >
               {'Staking'}
             </NavLink>
             
-            <NavLink to={'/reward'} className={location?.pathname!='/'?'reward':''}>
+            <NavLink to={'/reward'} style={{fontSize: 20}} className={location?.pathname!='/'?'reward navlink':'navlink'}>
             {'Reward'}
             </NavLink>
               
@@ -136,7 +136,6 @@ function Navbar() {
       
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        
       </Box>
     </Box>
   );

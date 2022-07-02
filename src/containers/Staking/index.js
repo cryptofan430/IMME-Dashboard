@@ -30,8 +30,8 @@ const UNISWAPV2_ROUTER02_ABI = [{ "inputs": [{ "internalType": "uint256", "name"
 const Icon = (props) =>{
   const {num} = props
   return(
-    <div className='icon-wrapper'>
-      <img src={process.env.PUBLIC_URL + `/${num}.png`} alt="Logo" style={{width: '30px'}}/> 
+    <div className='icon-wrapper' >
+      <img src={process.env.PUBLIC_URL + `/${num}.png`} alt="Logo"/> 
     </div>
   )
 }
@@ -83,6 +83,7 @@ function OutlinedCard(props) {
               direction="column"
               justifyContent="center"
               alignItems="center"
+              
             >
               <Icon num={num} />
             </Grid>
@@ -91,7 +92,7 @@ function OutlinedCard(props) {
                 <span className='text-0'>{text}</span>  
               </Grid>
               <Grid item >
-                <span>
+                <span className='text-1'>
                   {num == 2 ? `$${value.toLocaleString()}` : `${value.toLocaleString()}`}
                 </span>
               </Grid>
@@ -262,7 +263,7 @@ export default function Staking() {
       <Container >
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <OutlinedCard num = {1} text={"Total Staked"} value={staked}/>
+            <OutlinedCard num = {1} text={"Total Staked"} value={staked}/>  
           </Grid>
           <Grid item xs={4}>
             <OutlinedCard num = {2} text={"Total Rewards"} value={rewards}/>

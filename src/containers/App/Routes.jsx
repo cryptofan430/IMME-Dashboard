@@ -11,7 +11,6 @@ const Routes = () => (
         {/* <Route exact path="/" component={LogIn} /> */}
         {/* <PublicRoute restricted={true} component={LogIn} path="/login" exact /> */}
         <Route exact path="/" component={Staking} restricted={true} />
-        <Route exact path="/stake" component={Staking} restricted={true} />
         <Route exact path="/reward" component={Reward} restricted={true} />
         
       </Switch>
