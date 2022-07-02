@@ -3,7 +3,6 @@ import { useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { Grid } from '@mui/material';
-
 import { Container } from "@material-ui/core";
 
 import CardActions from '@mui/material/CardActions';
@@ -35,37 +34,6 @@ const Icon = (props) =>{
     </div>
   )
 }
-
-const card = (props) => {
-  const {text, num, value} = props;
-  return(
-  <React.Fragment>
-    <CardContent className='top-card'>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Icon num={num} />
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Typography variant="caption" gutterBottom >
-            {text}
-          </Typography>
-          <Typography variant="caption" gutterBottom >
-            {num == 2 ? `$${numFormatter(num)}` : `${numFormatter(num)}`}
-          </Typography>
-        </Grid>
-      </Grid>
-    </CardContent> 
-  </React.Fragment>
-  )
-};
 
 function OutlinedCard(props) {
   const {text, num, value} = props;
@@ -105,35 +73,38 @@ function OutlinedCard(props) {
 }
 
 const Playground = (props) => {
-  const {balance, stake, unstake, setDepositAmount, userBalance, claimable} = props;
+  const {balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake} = props;
   return (
     <Container className="jbbodybox">
-      <Grid container direction='row' justifyContent='center'>
-        <Grid item xm={12} sm={12} md={6} lg={6}>
+      <Grid container direction='row' sx={{marginTop:'30px'}}>
+        <Grid item xm={12} sm={12} md={6} lg={6} >
           <p className='jbtitle1'>Stake</p>
-          <p>YOUR ACCOUNT BALANCE</p>
+          <p className='jbtitle0'>YOUR ACCOUNT BALANCE</p>
           <p><label className='jbtitle1'>{numFormatter(balance)}</label> BUSD</p>
         </Grid>
-        <Grid item xm={12} sm={12} md={6} lg={6}>
+        <Grid item xm={12} sm={12} md={6} lg={6} sx={{textAlign:'right'}}>
           <TextField 
             id=''
             label=''
             variant="outlined"
             placeholder='BUSD'
             sx={{ color: 'white' }}
-            onChange={(e) => setDepositAmount(e.target.value)}
+            error = {errorText}
+            errorText= {errorText}
+            value={amountToStake}
+            onChange={onChange}
             // type='number'
             InputProps={{
-              endAdornment: <InputAdornment position="end"><Button>MAX</Button></InputAdornment>,
+              endAdornment: <InputAdornment position="end"><Button sx={{ color: 'white' }} onClick={setMax} >MAX</Button></InputAdornment>,
             }}
             className='jbbodytextfield'
           />
-          <Button variant="contained" disableElevation className='jbbodybutton' onClick={stake}>STAKE</Button>
+          <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake}>STAKE</Button>
         </Grid>
       </Grid>
       <Divider className='jbdivider' />
       
-      <Grid container direction='row' justifyContent='center' className='jbbodybox2'>
+      <Grid container direction='row' justifyContent='space-around' className='jbbodybox2' >
         <Grid item xm={12} sm={12} md={3} lg={3} className='jbbodysubbox'>
           <p className='jbtitle2'>EARNED REWARD</p>
           <p><label className='jbtitle1'>{numFormatter(claimable) }</label> INME</p>
@@ -142,19 +113,7 @@ const Playground = (props) => {
           <p className='jbtitle2'>CURRENTLY STAKING</p>
           <p><label className='jbtitle1'>{numFormatter(userBalance) }</label> INME</p>
         </Grid>
-        <Grid item xm={12} sm={12} md={6} lg={6}>
-          <TextField 
-            id=''
-            label=''
-            variant="outlined"
-            placeholder='INME UNSTAKE AMOUNT'
-            className='jbbodytextfield'
-            // type='number'
-            InputProps={{
-              endAdornment: <InputAdornment position="end"><Button>MAX</Button></InputAdornment>,
-            }}
-            
-          />
+        <Grid item xm={12} sm={12} md={6} lg={6} sx={{textAlign:'right'}}>
           <Button variant="contained" disableElevation className='jbbodybutton' onClick={ unstake}>UNSTAKE</Button>
         </Grid>
       </Grid>
@@ -173,6 +132,10 @@ export default function Staking() {
   const [claimable, setClaimable] = useState(0);
   const [userBalance, setUserBalance] = useState(0);
   const { ethereum } = window;
+  const [errorText, setErrorText] = useState('error');
+  const [amountToStake, setAmountToStake] = useState(null);
+
+  const re = /[0-9]+/g;
 
   useEffect(()=>{
     //connecting to ethereum blockchain
@@ -181,6 +144,26 @@ export default function Staking() {
     };
     ethEnabled();
   },[])
+  
+  const setMax = () =>{
+    setAmountToStake(balance);
+    setDepositAmount(balance);
+    setErrorText('');
+  }
+  const onChange = (event) => {
+    
+    const numberRegEx = /\-?\d*\.?\d{1,2}/;
+  
+        if (event.target.value === '' || !numberRegEx.test(event.target.value.toLowerCase())) {
+            setErrorText("invalid format");  
+            
+        }
+        else{
+          setDepositAmount(event.target.value)
+          setErrorText("");
+        }
+
+  };
 
   const fetchDataFromBlockchain = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum)  
@@ -218,6 +201,9 @@ export default function Staking() {
   }
 
   async function stake() {
+    if(errorText){
+      window.alert('Please input amount to stake');
+    }
     if (typeof window.ethereum !== 'undefined') {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       
@@ -251,6 +237,8 @@ export default function Staking() {
         fetchDataFromBlockchain();
         console.log("unstake")
       } catch (err) {
+        
+        window.alert(err.error.message);
         console.log("Error: ", err)
       }
     }    
@@ -277,9 +265,13 @@ export default function Staking() {
           balance = {balance} 
           stake = {stake} 
           unstake = {unstake} 
-          setDepositAmount = {setDepositAmount} 
+          onChange = {onChange} 
           userBalance = {userBalance}
-          claimable = {claimable} />
+          claimable = {claimable}
+          errorText = {errorText} 
+          setMax = {setMax} 
+          amountToStake = {amountToStake} 
+          />
       </Container>
         
     </div>

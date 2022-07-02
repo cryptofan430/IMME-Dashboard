@@ -1,7 +1,14 @@
 .App {
   /* text-align: center; */
 }
-
+input{
+  color: white !important;
+  font-family: 'Mulish' !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  font-size: 18px !important;
+  line-height: 23px !important;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -36,6 +43,9 @@
   }
 }
 
+.navbar{
+  
+}
 .navlink{
   text-decoration: none;
   color: white;
@@ -77,12 +87,13 @@
   background: #0E215C;
   border: 2px solid #2E72D2;
   border-radius: 5px;
+  
 }
 
 .top-card .icon-wrapper{
   background: #1E2F64;
   border-radius: 13px;
-  margin-top: 0px;
+  margin-top: 3px;
   margin-right: 20px;
   
 }
@@ -108,12 +119,20 @@
 }
 
 .jbtitle1 {
-  font-size: 24px;
+  font-weight: 400;
+  font-size: 32px;
+  margin-top: 0;
 }
 
 .jbtitle2 {
-  font-size: 15px;
-  font-weight: bolder;
+  font-weight: 800;
+  font-size: 18px;
+  
+}
+.jbtitle0{
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 23px;
 }
 
 .jbbodybox {
@@ -123,6 +142,16 @@
   border: 2px solid #2E72D2;
   padding: 20px;
   border-radius: 5px;
+
+  font-family: 'Mulish';
+  font-style: normal;
+
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 23px;
+  
+  /* text-align: center; */
+
 }
 
 .jbbodytextfield {
@@ -132,12 +161,23 @@
 }
 
 .jbbodybutton {
-  margin-top: 50px !important;
-  margin-left: 350px !important;
+  width: 127px !important;
+  height: 47px !important;
+  
   background-color: #FAB217  !important;
   border-radius: 25px !important;
-  width: 100px !important;
   color: black !important;
+
+  font-weight: 800 !important;
+  font-size: 18px;
+  line-height: 23px;
+
+}
+
+.jbbodybutton.stake {
+  
+  margin-top: 50px !important;
+  margin-left: 350px !important;
 }
 
 .jbdivider {
@@ -147,7 +187,8 @@
 }
 
 .jbbodybox2{
-  margin-top: 30px !important;
+  margin-top: 50px !important;
+  margin-bottom: 20px !important;
 }
 
 .jbbodysubbox {

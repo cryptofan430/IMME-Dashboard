@@ -58,24 +58,6 @@ function Navbar() {
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
-      </Typography>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
           
   const handleConnect = async () => {
     try {
@@ -98,7 +80,7 @@ function Navbar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none'}}>
-        <Toolbar style={{  marginLeft:'9%', marginRight:'9%', marginTop:'10px'}}>
+        <Toolbar style={{  marginLeft:'9%', marginRight:'9%', marginTop:'10px', marginBottom:'10px'}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
