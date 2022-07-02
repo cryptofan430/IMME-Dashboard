@@ -262,7 +262,7 @@ export default function Staking() {
       <Container >
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <OutlinedCard num = {1} text={"Total Staked"} value={staked}/>  
+            <OutlinedCard num = {1} text={"Total Staked"} value={staked}/>
           </Grid>
           <Grid item xs={4}>
             <OutlinedCard num = {2} text={"Total Rewards"} value={rewards}/>

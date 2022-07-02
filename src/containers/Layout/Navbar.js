@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
+import {useHistory, useLocation} from 'react-router-dom'
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import { Container } from "@material-ui/core";
@@ -25,22 +25,29 @@ import {
   NavLink
 } from "react-router-dom";
 
-const drawerWidth = 240;
+
 const navItems = ['Staking', 'Imme Run'];
 
-const logo_img = `logo.png`;
+
 const Logo = () =>{
   return(
   <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" style={{width: '200px'}}/> 
   )
 }
-function Navbar(props) {
+function Navbar() {
+  let location = useLocation();
   const [haveMetamask, setHaveMetamask] = useState(true);
   const [accountAddress, setAccountAddress] = useState(null);
   const [accountBalance, setAccountBalance] = useState('');
   const [isConnected, setIsConnected] = useState(false);
+  const [path, setPath] = useState('stake');
 
-  
+  React.useEffect(() => {
+    if(location){
+      console.log(location.pathname,'------')
+    }
+  }, [location]);
+
   const { ethereum } = window;
   const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -110,11 +117,12 @@ function Navbar(props) {
           </Typography>
           <Box  sx={{ display: { xs: 'none', sm: 'block' } }}>
                           
-            <NavLink to={'/stake'} className='link'>
+            <NavLink to={'/'} className={location?.pathname=='/'?'stake':''}
+            >
               {'Staking'}
             </NavLink>
             
-            <NavLink to={'/reward'} className='link'>
+            <NavLink to={'/reward'} className={location?.pathname!='/'?'reward':''}>
             {'Reward'}
             </NavLink>
               

@@ -40,12 +40,15 @@
   margin-left: 100px;
   margin-left: 100px;
 }
-.link{
+a{
   text-decoration: none;
   color: white;
   margin: 10px;
 }
-.link.active{
+a.stake{
+  color: #FAB217;
+}
+a.reward{
   color: #FAB217;
 }
 
