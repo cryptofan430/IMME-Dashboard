@@ -1,30 +1,38 @@
-import * as React from 'react';
-import { useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { Grid } from '@mui/material';
 import { Container } from "@material-ui/core";
-
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { InputAdornment, TextField, Divider } from "@material-ui/core";
 
 import {ethers} from 'ethers';
-import { BrowserRouter as Router } from 'react-router-dom';
+import Web3Context from '../../store/web3-context';
 
 import StakingContract from '../../artifacts/contracts/Staking.sol/ImmeStaking.json';
 import StakingToken from '../../artifacts/contracts/BUSD.sol/StakingToken.json';
 
-import { numFormatter } from '../../utils/helper';
+import { numFormatter, fromHours } from '../../utils/helper';
+import Web3 from "web3";
+
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 const stakingAddress = '0xa046994c896581b421760285b401350762570d82';
 const sTokenAddress = '0xAD3E28dA2B1480cdB2D79C70764458AaBa1c57F3'; //StakingToken.networks['3'].address;
-const rTokenAddress = '0x9ad38251cD6B157B32C4D913b03165781bd2d019';
 
-const UNISWAPV2_ROUTER02_ADDRESS = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
-const UNISWAPV2_ROUTER02_ABI = [{ "inputs": [{ "internalType": "uint256", "name": "amountIn", "type": "uint256" }, { "internalType": "address[]", "name": "path", "type": "address[]" }], "name": "getAmountsOut", "outputs": [{ "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }], "stateMutability": "view", "type": "function" }]
+const sTime1 = 7 * 24;
+const sTime2 = 14 * 24;
+const sTime3 = 30 * 24;
+const sTime4 = 60 * 24;
+const sTime5 = 90 * 24;
+const sTime6 = 180 * 24;
+const sTime7 = 360 * 24;
+const sTime8 = 720 * 24;
 
 const Icon = (props) =>{
   const {num} = props
@@ -73,7 +81,7 @@ function OutlinedCard(props) {
 }
 
 const Playground = (props) => {
-  const {balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake, working} = props;
+  const {balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake, working, value, handleChange} = props;
   return (
     <Container className="jbbodybox">
       <Grid container direction='row' sx={{marginTop:'30px'}}>
@@ -99,11 +107,39 @@ const Playground = (props) => {
             }}
             className='jbbodytextfield'
           />
+        
           <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake} disabled={working}>STAKE</Button>
         </Grid>
       </Grid>
+        
+        <FormControl >
+        {/* <FormLabel id="demo-row-radio-buttons-group-label">
+            <p className='jbtitle1'>Staking Option</p>
+        </FormLabel> */}
+          <RadioGroup
+            aria-labelledby="demo-controlled-radio-buttons-group"
+            name="controlled-radio-buttons-group"
+            value={value}
+            row
+            className='stake-option'
+            onChange={handleChange}
+          >
+            <FormControlLabel value="7" 
+              
+              control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>} 
+              label="7 days for 1.5%" />
+            <FormControlLabel value="14" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="14 days for 3.5%" />
+            <FormControlLabel value="30" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="30 days for 7.5%" />
+            <FormControlLabel value="60" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="60 days for 15%" />
+            <FormControlLabel value="90" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="90 days for 25%" />
+            <FormControlLabel value="180" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="180 days for 75%" />
+            <FormControlLabel value="360" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="360 days for 200%" />
+            <FormControlLabel value="720" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="720 days for 500%" />
+            
+          </RadioGroup>
+        </FormControl>
+        
       <Divider className='jbdivider' />
-      
       <Grid container direction='row' justifyContent='space-around' className='jbbodybox2' >
         <Grid item xm={12} sm={12} md={3} lg={3} className='jbbodysubbox'>
           <p className='jbtitle2'>EARNED REWARD</p>
@@ -136,16 +172,100 @@ export default function Staking() {
   const [amountToStake, setAmountToStake] = useState(null);
   const [working, setWorking] = useState(false);
 
-  const re = /[0-9]+/g;
+  const web3Ctx = useContext(Web3Context); 
+
+  const [value, setValue] = React.useState(7);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   useEffect(()=>{
     //connecting to ethereum blockchain
+    if(!web3Ctx.provider)
+      return;
     const ethEnabled = async () => {
       fetchDataFromBlockchain();
     };
-    // ethEnabled();
-  },[])
+    ethEnabled();
+  },[web3Ctx.provider])
+
+  useEffect(()=>{
+    if(!web3Ctx.provider)
+      return;
+    const interval=setInterval(()=>{
+      updateReward()
+     },5000)
+       
+     return()=>clearInterval(interval)
+  },[web3Ctx.provider])
   
+  const updateReward = async() =>{
+    if(web3Ctx.provider){
+      const web3 = new Web3(web3Ctx.provider);
+      const contract = new web3.eth.Contract(StakingContract.abi, stakingAddress);
+      const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
+
+      let block = await provider.getBlock();
+      let timestamp = block.timestamp;
+      
+      const signer = provider.getSigner()
+      
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts',
+      });
+      let account = accounts[0];
+      
+      const origin = await contract.methods.stakers(account).call() // works
+      
+      
+      let stime = (fromHours(Number(timestamp) - Number(origin.startTime)));
+      const total = Number(ethers.utils.formatEther(origin.balance).toString());
+      
+      let earned 
+
+      if(stime >= sTime8) {
+          earned = total * 5;
+      }
+      else if(stime >= sTime7) {
+          earned = total * (2 + 3 * (stime - sTime7) / (360 * 24));
+      }
+      else if(stime >= sTime6) {
+          earned = total * (0.75 + 1.25 * (stime - sTime6) / (180 * 24));
+          
+      }
+      else if(stime >= sTime5) {
+          earned = total * (0.25 + 0.5 * (stime - sTime5) / (90 * 24));
+          
+      }
+      else if(stime >= sTime4) {
+          earned = total * (0.15 + 0.1 * (stime - sTime4) / (30 * 24));
+          
+      }
+      else if(stime >= sTime3) {
+          earned = total * (0.075 + 0.075 * (stime - sTime3) / (30 * 24));
+          
+      }
+      else if(stime >= sTime2) {
+          earned = total * (0.035 + 0.04 * (stime - sTime2) / (16 * 24));
+          
+      }
+      else if(stime >= sTime1){
+          earned = total * (0.015 + 0.02 * (stime - sTime1) / (7 * 24));
+      
+      }
+      else{
+          earned = total * (0 + 0.015 * (stime ) / (7 * 24));
+      }
+
+      setClaimable(earned);
+      console.log(earned, '------');
+
+    }
+    
+    
+  }
+
   const setMax = () =>{
     setAmountToStake(balance);
     setDepositAmount(balance);
@@ -167,7 +287,9 @@ export default function Staking() {
   };
 
   const fetchDataFromBlockchain = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)  
+    if(!web3Ctx.provider)
+      return;
+    const provider = new ethers.providers.Web3Provider(web3Ctx.provider)  
     const signer = provider.getSigner()
     // const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
     const contract = new ethers.Contract(stakingAddress, [
@@ -186,13 +308,12 @@ export default function Staking() {
     const tx2 = await contract.totalStaked();
     const tx3 = await contract.totalRewards();
     const tx4 = await contract.getUserBalance(account);
-    const tx5 = await contract.getClaimable(account);
-
+    // const tx5 = await contract.getClaimable(account);
     setTotal(tx1.toString());
+
     setStaked(ethers.utils.formatEther(tx2.toString()));
     setRewards(ethers.utils.formatEther(tx3.toString()));
     setUserBalance(ethers.utils.formatEther(tx4.toString()));
-    setClaimable(ethers.utils.formatEther(tx5.toString()));
     setAccount(account);
   
     const stakingContract = new ethers.Contract(sTokenAddress,StakingToken.abi, signer)
@@ -205,9 +326,8 @@ export default function Staking() {
     if(errorText){
       window.alert('Please input amount to stake');
     }
-    if (typeof window.ethereum !== 'undefined') {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
-      
+    if(web3Ctx.provider){
+      const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
       const accounts = await window.ethereum.enable();
       console.log('accounts: ', accounts);
@@ -231,8 +351,8 @@ export default function Staking() {
     }
   }
   async function unstake() {
-    if (typeof window.ethereum !== 'undefined') {
-      const provider = new ethers.providers.Web3Provider(window.ethereum)
+    if(web3Ctx.provider){
+      const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
       try {
@@ -275,6 +395,8 @@ export default function Staking() {
           setMax = {setMax} 
           amountToStake = {amountToStake} 
           working = {working}
+          value = {value} 
+          handleChange = {handleChange}
           />
       </Container>
         

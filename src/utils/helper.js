@@ -11,9 +11,14 @@ function numFormatter(num) {
   }
 }
 
+function fromHours(x) {
+  return (x / (60 * 60));
+}
+
 
 module.exports = {
   
   numFormatter,
+  fromHours
   
 };

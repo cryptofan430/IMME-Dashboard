@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './containers/App/App';
 import reportWebVitals from './reportWebVitals';
+import Web3Provider from './store/Web3Provider';
 
 ReactDOM.render(
-  
-  <App />,
-
+  <Web3Provider>
+    <App />
+  </Web3Provider>,
 document.getElementById("root")
 );
 // const root = ReactDOM.createRoot(document.getElementById('root'));

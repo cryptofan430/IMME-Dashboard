@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,31 +11,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { useState, useEffect} from 'react';
 
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
+import Web3Context from '../../store/web3-context';
 
 import {ethers, providers} from 'ethers';
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   NavLink
 } from "react-router-dom";
-
-
-const navItems = ['Staking', 'Imme Run'];
-
 
 const Logo = () =>{
   return(
   <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" style={{width: '200px'}}/> 
   )
 }
-
-
 
 function Navbar() {
   let location = useLocation();
@@ -51,15 +43,7 @@ function Navbar() {
   const [library, setLibrary] = useState();
   const [mainChain, setMainChain] = useState(0); // chain type 1: ethereum 0: polygon
   const [chain, setChain] = useState(0);
-
-  React.useEffect(() => {
-    if(location){
-      console.log(location.pathname,'------')
-      
-    }
-
-    
-  }, [location]);
+  const web3Ctx = useContext(Web3Context);
 
   useEffect(() => {
     // initiate web3modal
@@ -68,6 +52,13 @@ function Navbar() {
         package: WalletConnectProvider,
         options: {
           infuraId: process.env.REACT_APP_INFURA_KEY,
+        }
+      },
+      walletlink: {
+        package: CoinbaseWalletSDK, // Required
+        options: {
+          appName: "Web 3 Modal Demo", // Required
+          infuraId: process.env.REACT_APP_INFURA_KEY // Required unless you provide a JSON RPC url; see `rpc` below
         }
       },
     };
@@ -119,8 +110,11 @@ function Navbar() {
     //   }
     //   return;
     // }
-    const provider = await web3Modal.connect();
 
+    const provider = await web3Modal.connect();
+    await web3Ctx.addProvider(provider);
+    
+    setAccountAddress(provider.selectedAddress); 
     // const library = new ethers.providers.Web3Provider(provider);
     // addListeners(provider);
     // setProvider(provider);

@@ -115,7 +115,11 @@ input{
   line-height: 39px;
   text-transform: uppercase;
 }
-
+.stake-option{
+  color: #DDD;
+  font-size: 10px !important;
+  
+}
 .jbtitle1 {
   font-weight: 400;
   font-size: 32px;
