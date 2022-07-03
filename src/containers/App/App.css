@@ -177,7 +177,9 @@ input{
 }
 
 .jbbodybutton.stake {
-  
+  width: 190px !important;
+  height: 47px !important;
+
   margin-top: 50px !important;
   margin-left: 350px !important;
 }

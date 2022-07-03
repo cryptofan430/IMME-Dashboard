@@ -22,7 +22,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-const stakingAddress = '0xa046994c896581b421760285b401350762570d82';
+const stakingAddress = '0x4e777541765ae2f2ab0363954e545a738ba7b037'; //0xa046994c896581b421760285b401350762570d82
 const sTokenAddress = '0xAD3E28dA2B1480cdB2D79C70764458AaBa1c57F3'; //StakingToken.networks['3'].address;
 
 const sTime1 = 7 * 24;
@@ -108,7 +108,7 @@ const Playground = (props) => {
             className='jbbodytextfield'
           />
         
-          <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake} disabled={working}>STAKE</Button>
+          <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake} disabled={working}>{`${value} days STAKE`}</Button>
         </Grid>
       </Grid>
         
@@ -325,8 +325,12 @@ export default function Staking() {
   async function stake() {
     if(errorText){
       window.alert('Please input amount to stake');
+      return;
     }
-    if(web3Ctx.provider){
+    if(!web3Ctx.provider){
+      window.alert('Please Connect Wallet');
+    }
+    else{
       const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
       const accounts = await window.ethereum.enable();
@@ -351,7 +355,10 @@ export default function Staking() {
     }
   }
   async function unstake() {
-    if(web3Ctx.provider){
+    if(!web3Ctx.provider){
+      window.alert('Please Connect Wallet');
+    }
+    else{
       const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
@@ -374,10 +381,10 @@ export default function Staking() {
       <Container >
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <OutlinedCard num = {1} text={"Total Staked"} value={staked}/>  
+            <OutlinedCard num = {1} text={"Total Staked"} value={numFormatter(staked)}/>  
           </Grid>
           <Grid item xs={4}>
-            <OutlinedCard num = {2} text={"Total Rewards"} value={rewards}/>
+            <OutlinedCard num = {2} text={"Total Rewards"} value={numFormatter(rewards)}/>
           </Grid>
           <Grid item xs={4}>
             <OutlinedCard num = {3} text={"Total Users"} value={total}/>
