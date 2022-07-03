@@ -143,7 +143,7 @@ export default function Staking() {
     const ethEnabled = async () => {
       fetchDataFromBlockchain();
     };
-    ethEnabled();
+    // ethEnabled();
   },[])
   
   const setMax = () =>{
