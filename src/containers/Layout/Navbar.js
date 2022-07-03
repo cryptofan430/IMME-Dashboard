@@ -11,25 +11,30 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
+import Drawer from '@mui/material/Drawer';
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import Web3Context from '../../store/web3-context';
-
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import { ethers, providers } from 'ethers';
 import {
   BrowserRouter as Router,
   NavLink
 } from "react-router-dom";
 
-const Logo = () => {
+const Logo = (props) => {
+  const {size} = props; 
   return (
-    <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" style={{ width: '200px' }} />
+    <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" style={{ width: size, marginTop:"20px" }} />
   )
 }
+const drawerWidth = 180;
+const navItems = ['Staking', 'Inme Run', 'Connect'];
 
-function Navbar() {
+function Navbar(props) {
   let location = useLocation();
   const [haveMetamask, setHaveMetamask] = useState(true);
   const [accountAddress, setAccountAddress] = useState(null);
@@ -44,6 +49,7 @@ function Navbar() {
   const [mainChain, setMainChain] = useState(0); // chain type 1: ethereum 0: polygon
   const [chain, setChain] = useState(0);
   const web3Ctx = useContext(Web3Context);
+  const { window } = props;
 
   useEffect(() => {
     // initiate web3modal
@@ -63,16 +69,17 @@ function Navbar() {
       },
     };
 
+
     const newWeb3Modal = new Web3Modal({
       cacheProvider: true, // very important
-      // network: "mainnet",
+      network: "mainnet",
       providerOptions,
     });
 
     setWeb3Modal(newWeb3Modal)
   }, []);
 
-  const { ethereum } = window;
+
   // const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 
@@ -82,24 +89,39 @@ function Navbar() {
     setMobileOpen(!mobileOpen);
   };
 
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center', backgroundColor: '#0B184F', height: '100%' }}>
 
-  const handleConnect = async () => {
-    try {
-      if (!ethereum) {
-        setHaveMetamask(false);
-      }
-      const accounts = await ethereum.request({
-        method: 'eth_requestAccounts',
-      });
-      let balance = await provider.getBalance(accounts[0]);
-      let bal = ethers.utils.formatEther(balance);
-      setAccountAddress(accounts[0]);
-      setAccountBalance(bal);
-      setIsConnected(true);
-    } catch (error) {
-      setIsConnected(false);
-    }
-  };
+      <Logo size='150px'/>
+      <Divider />
+      <List>
+        <ListItem disablePadding >
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <NavLink to={'/'} style={{ fontSize: 20 }} className={location?.pathname == '/' ? 'stake navlink' : 'navlink'}>
+              {'Staking'}
+            </NavLink>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <NavLink to={'/'} style={{ fontSize: 20 }} className={location?.pathname != '/' ? 'reward navlink' : 'navlink'}>
+              {'Inme Run'}
+            </NavLink>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton sx={{ textAlign: 'center' }}>
+            <Button className='connectBtn' sx={{ color: '#fff', marginTop: '5px', marginTop: '5px' }} onClick={connectWallet}>
+              {accountAddress ? `${accountAddress.slice(0, 4)}...
+                ${accountAddress.slice(38, 42)}` : 'Connect'}
+            </Button>
+          </ListItemButton>
+        </ListItem>
+
+      </List>
+
+    </Box>
+  );
 
   async function connectWallet() {
 
@@ -137,6 +159,7 @@ function Navbar() {
     });
   }
 
+  const container = window !== undefined ? () => window().document.body : undefined;
   function checkChain() {
     // if (chains[mainChain].chainId != chain) {
     //   switchNetwork();
@@ -150,42 +173,59 @@ function Navbar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <Container>
-      <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none' }}>
-        <Toolbar style={{ marginTop: '10px', marginBottom: '20px' }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            <Logo />
-          </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            
+        <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none' }}>
+          <Toolbar style={{ marginTop: '10px', marginBottom: '20px' }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              <Logo size='200px'/>
+            </Typography>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+
               <NavLink to={'/'} style={{ fontSize: 20 }} className={location?.pathname == '/' ? 'stake navlink' : 'navlink'}
               >
                 {'Staking'}
               </NavLink>
 
-              <NavLink to={'/reward'} style={{ fontSize: 20 }} className={location?.pathname != '/' ? 'reward navlink' : 'navlink'}>
+              <NavLink to={'/'} style={{ fontSize: 20 }} className={location?.pathname != '/' ? 'reward navlink' : 'navlink'}>
                 {'Inme Run'}
               </NavLink>
-            
-            <Button className='connectBtn' sx={{ color: '#fff', marginLeft:'30px' }} onClick={connectWallet}>
-              {accountAddress ? `${accountAddress.slice(0, 4)}...
+
+              <Button className='connectBtn' sx={{ color: '#fff', marginLeft: '30px' }} onClick={connectWallet}>
+                {accountAddress ? `${accountAddress.slice(0, 4)}...
                 ${accountAddress.slice(38, 42)}` : 'Connect'}
-            </Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
+              </Button>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Box component="nav" >
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Box>
       </Container>
     </Box>
   );

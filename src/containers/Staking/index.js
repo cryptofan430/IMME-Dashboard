@@ -23,7 +23,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 const stakingAddress = '0x4e777541765ae2f2ab0363954e545a738ba7b037'; //0xa046994c896581b421760285b401350762570d82
-const sTokenAddress = '0xAD3E28dA2B1480cdB2D79C70764458AaBa1c57F3'; //StakingToken.networks['3'].address;
+const sTokenAddress = '0xe9e7cea3dedca5984780bafc599bd69add087d56'; //StakingToken.networks['3'].address;
 
 const sTime1 = 7 * 24;
 const sTime2 = 14 * 24;
@@ -334,7 +334,7 @@ export default function Staking() {
     setAccount(account);
   
     const stakingContract = new ethers.Contract(sTokenAddress,StakingToken.abi, signer)
-    const balance = ethers.utils.formatEther((await stakingContract.balanceOf(accounts[0]))).toString();
+    const balance = ethers.utils.formatEther((await stakingContract.balanceOf(account))).toString();
     setBalance(balance);
     
   }
@@ -350,8 +350,6 @@ export default function Staking() {
     else{
       const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
-      const accounts = await window.ethereum.enable();
-      console.log('accounts: ', accounts);
       console.log('provider: ', provider);
 
       const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
@@ -385,7 +383,7 @@ export default function Staking() {
         console.log("unstake")
       } catch (err) {
         
-        window.alert(err.error.message);
+        window.alert(err.error.data.message);
         console.log("Error: ", err)
       }
     }    
