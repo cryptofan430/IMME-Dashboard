@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import {useHistory, useLocation} from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import { Container } from "@material-ui/core";
@@ -17,15 +17,15 @@ import Web3Modal from "web3modal";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import Web3Context from '../../store/web3-context';
 
-import {ethers, providers} from 'ethers';
+import { ethers, providers } from 'ethers';
 import {
   BrowserRouter as Router,
   NavLink
 } from "react-router-dom";
 
-const Logo = () =>{
-  return(
-  <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" style={{width: '200px'}}/> 
+const Logo = () => {
+  return (
+    <img src={process.env.PUBLIC_URL + '/logo.png'} alt="Logo" style={{ width: '200px' }} />
   )
 }
 
@@ -47,7 +47,7 @@ function Navbar() {
 
   useEffect(() => {
     // initiate web3modal
-     const providerOptions = {
+    const providerOptions = {
       walletconnect: {
         package: WalletConnectProvider,
         options: {
@@ -75,14 +75,14 @@ function Navbar() {
   const { ethereum } = window;
   // const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-  
+
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-          
+
   const handleConnect = async () => {
     try {
       if (!ethereum) {
@@ -113,8 +113,8 @@ function Navbar() {
 
     const provider = await web3Modal.connect();
     await web3Ctx.addProvider(provider);
-    
-    setAccountAddress(provider.selectedAddress); 
+
+    setAccountAddress(provider.selectedAddress);
     // const library = new ethers.providers.Web3Provider(provider);
     // addListeners(provider);
     // setProvider(provider);
@@ -149,8 +149,9 @@ function Navbar() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none'}}>
-        <Toolbar style={{  marginLeft:'9%', marginRight:'9%', marginTop:'10px', marginBottom:'10px'}}>
+      <Container>
+      <AppBar component="nav" className='navbar' style={{ background: 'transparent', boxShadow: 'none' }}>
+        <Toolbar style={{ marginTop: '10px', marginBottom: '20px' }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -167,34 +168,31 @@ function Navbar() {
           >
             <Logo />
           </Typography>
-          <Box  sx={{ display: { xs: 'none', sm: 'block' } }}>
-                          
-            <NavLink to={'/'} style={{fontSize: 20}} className={location?.pathname=='/'?'stake navlink':'navlink'}
-            >
-              {'Staking'}
-            </NavLink>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             
-            <NavLink to={'/reward'} style={{fontSize: 20}} className={location?.pathname!='/'?'reward navlink':'navlink'}>
-            {'Inme Run'}
-            </NavLink>
-              
-            <Button className='connectBtn' sx={{ color: '#fff' }} onClick={connectWallet}>
-              {accountAddress? `${accountAddress.slice(0, 4)}...
+              <NavLink to={'/'} style={{ fontSize: 20 }} className={location?.pathname == '/' ? 'stake navlink' : 'navlink'}
+              >
+                {'Staking'}
+              </NavLink>
+
+              <NavLink to={'/reward'} style={{ fontSize: 20 }} className={location?.pathname != '/' ? 'reward navlink' : 'navlink'}>
+                {'Inme Run'}
+              </NavLink>
+            
+            <Button className='connectBtn' sx={{ color: '#fff', marginLeft:'30px' }} onClick={connectWallet}>
+              {accountAddress ? `${accountAddress.slice(0, 4)}...
                 ${accountAddress.slice(38, 42)}` : 'Connect'}
             </Button>
           </Box>
         </Toolbar>
       </AppBar>
-      
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
-      </Box>
+      </Container>
     </Box>
   );
 }
 
 Navbar.propTypes = {
-      
+
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.

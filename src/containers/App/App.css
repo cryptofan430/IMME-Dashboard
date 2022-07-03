@@ -1,5 +1,6 @@
 .App {
   /* text-align: center; */
+  min-height: 100vh;
 }
 input{
   color: white !important;
@@ -44,6 +45,7 @@ input{
 }
 
 .navbar{
+  position: relative !important;
   
 }
 .navlink{
@@ -139,6 +141,7 @@ input{
 
 .jbbodybox {
   margin-top: 50px;
+  margin-bottom: 50px;
   color: white;
   background: #0E215C;
   border: 2px solid #2E72D2;
@@ -159,12 +162,13 @@ input{
 .jbbodytextfield {
   border: 2px solid #2E72D2;
   color: white !important;
-  width: 450px;
+  /* width: 450px; */
 }
 
 .jbbodybutton {
-  width: 127px !important;
-  height: 47px !important;
+  /* width: 127px !important; */
+  /* height: 47px !important; */
+  float: right;
   
   background-color: #FAB217  !important;
   border-radius: 25px !important;
@@ -175,14 +179,11 @@ input{
   line-height: 23px;
 
 }
+.jbbodybutton.unstake {
+  margin-top: -30px;
 
-.jbbodybutton.stake {
-  width: 190px !important;
-  height: 47px !important;
-
-  margin-top: 50px !important;
-  margin-left: 350px !important;
 }
+
 
 .jbdivider {
   margin-top: 20px !important;

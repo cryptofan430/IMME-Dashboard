@@ -46,12 +46,11 @@ const Icon = (props) =>{
 function OutlinedCard(props) {
   const {text, num, value} = props;
   return (
-    <Box sx={{ minWidth: 275 }}>
+    <Box >
       <Card variant="outlined">
         <CardContent className='top-card'>
           <Grid
             container
-            direction="row"
             justifyContent="center"
           >
             <Grid
@@ -59,7 +58,6 @@ function OutlinedCard(props) {
               direction="column"
               justifyContent="center"
               alignItems="center"
-              
             >
               <Icon num={num} />
             </Grid>
@@ -85,74 +83,93 @@ const Playground = (props) => {
   return (
     <Container className="jbbodybox">
       <Grid container direction='row' sx={{marginTop:'30px'}}>
-        <Grid item xm={12} sm={12} md={6} lg={6} >
+        <Grid item sm={12} md={4} >
           <p className='jbtitle1'>Stake</p>
           <p className='jbtitle0'>YOUR ACCOUNT BALANCE</p>
           <p><label className='jbtitle1'>{numFormatter(balance)}</label> BUSD</p>
         </Grid>
-        <Grid item xm={12} sm={12} md={6} lg={6} sx={{textAlign:'right'}}>
-          <TextField 
-            id=''
-            label=''
-            variant="outlined"
-            placeholder='BUSD'
-            sx={{ color: 'white' }}
-            error = {errorText}
-            errorText= {errorText}
-            value={amountToStake}
-            onChange={onChange}
-            // type='number'
-            InputProps={{
-              endAdornment: <InputAdornment position="end"><Button sx={{ color: 'white' }} onClick={setMax} >MAX</Button></InputAdornment>,
-            }}
-            className='jbbodytextfield'
-          />
-        
-          <Button variant="contained" disableElevation className='jbbodybutton stake' onClick={stake} disabled={working}>{`${value} days STAKE`}</Button>
+        <Grid item direction='column' sm={12} md={8}>
+          <Grid item md={12} lg={6} >
+            <TextField 
+              id=''
+              label=''
+              variant="outlined"
+              placeholder='BUSD'
+              sx={{ color: 'white' }}
+              fullWidth
+              error = {errorText}
+              errorText= {errorText}
+              value={amountToStake}
+              onChange={onChange}
+              // type='number'
+              InputProps={{
+                endAdornment: <InputAdornment position="end"><Button sx={{ color: 'white' }} onClick={setMax} >MAX</Button></InputAdornment>,
+              }}
+              className='jbbodytextfield'
+            />
+          </Grid>
+          <Grid item md={12} lg={6} >
+            <FormControl >
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={value}
+                row
+                className='stake-option'
+                onChange={handleChange}
+              >
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="7"
+                    control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217"}}}/>} 
+                    sx={{whiteSpace: 'nowrap'}}
+                    label="7 days for 1.5%" />
+                </Grid>
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="14" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="14 days for 3.5%" 
+                  sx={{whiteSpace: 'nowrap'}}/>
+                </Grid>
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="30" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="30 days for 7.5%" 
+                  sx={{whiteSpace: 'nowrap'}}/>
+                </Grid>
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="60" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="60 days for 15%" 
+                  sx={{whiteSpace: 'nowrap'}}/>
+                </Grid>
+                
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="90" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="90 days for 25%" />
+                </Grid>
+                <Grid item xs={6} sm={4} lg={3}>
+                <FormControlLabel value="180" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="180 days for 75%" />
+                </Grid>
+                <Grid item xs={6} sm={4} lg={3}>
+                <FormControlLabel value="360" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="360 days for 200%" />
+                </Grid>
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="720" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="720 days for 500%" />
+                </Grid>
+                
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Button variant="contained" disableElevation sx={{width: {xs: '100%', sm: 'fit-content'}}} className='jbbodybutton stake' onClick={stake} disabled={working}>{`STAKE`}</Button>
         </Grid>
       </Grid>
-        
-        <FormControl >
-        {/* <FormLabel id="demo-row-radio-buttons-group-label">
-            <p className='jbtitle1'>Staking Option</p>
-        </FormLabel> */}
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            value={value}
-            row
-            className='stake-option'
-            onChange={handleChange}
-          >
-            <FormControlLabel value="7" 
-              
-              control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>} 
-              label="7 days for 1.5%" />
-            <FormControlLabel value="14" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="14 days for 3.5%" />
-            <FormControlLabel value="30" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="30 days for 7.5%" />
-            <FormControlLabel value="60" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="60 days for 15%" />
-            <FormControlLabel value="90" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="90 days for 25%" />
-            <FormControlLabel value="180" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="180 days for 75%" />
-            <FormControlLabel value="360" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="360 days for 200%" />
-            <FormControlLabel value="720" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="720 days for 500%" />
-            
-          </RadioGroup>
-        </FormControl>
+      
         
       <Divider className='jbdivider' />
-      <Grid container direction='row' justifyContent='space-around' className='jbbodybox2' >
-        <Grid item xm={12} sm={12} md={3} lg={3} className='jbbodysubbox'>
+      <Grid container direction='row' className='jbbodybox2' >
+        <Grid item xm={12} sm={12} md={6}  className='jbbodysubbox'>
           <p className='jbtitle2'>EARNED REWARD</p>
           <p><label className='jbtitle1'>{numFormatter(claimable) }</label> INME</p>
         </Grid>
-        <Grid item xm={12} sm={12} md={3} lg={3} className='jbbodysubbox'>
+        <Grid item xm={12} sm={12} md={6}  className='jbbodysubbox'>
           <p className='jbtitle2'>CURRENTLY STAKING</p>
           <p><label className='jbtitle1'>{numFormatter(userBalance) }</label> INME</p>
-        </Grid>
-        <Grid item xm={12} sm={12} md={6} lg={6} sx={{textAlign:'right'}}>
-          <Button variant="contained" disableElevation className='jbbodybutton' onClick={ unstake}>UNSTAKE</Button>
-        </Grid>
+        </Grid>          
       </Grid>
+      <Button variant="contained" disableElevation sx={{width: {xs: '100%', sm: 'fit-content'}, marginTop: {xs: '0px'}}} className='jbbodybutton unstake'  onClick={ unstake}>UNSTAKE</Button>
   </Container>
   );
 }
@@ -379,14 +396,16 @@ export default function Staking() {
   return (
     <div className="staking">      
       <Container >
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+        <Grid container spacing={2} 
+        sx={{flexDirection: {xs: 'column', sm: 'row'}}}
+        >
+          <Grid item xs={12} sm={4}>
             <OutlinedCard num = {1} text={"Total Staked"} value={numFormatter(staked)}/>  
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <OutlinedCard num = {2} text={"Total Rewards"} value={numFormatter(rewards)}/>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={4}>
             <OutlinedCard num = {3} text={"Total Users"} value={total}/>
           </Grid>
         </Grid>
