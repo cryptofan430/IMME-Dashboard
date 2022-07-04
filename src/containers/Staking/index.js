@@ -51,19 +51,18 @@ function OutlinedCard(props) {
         <CardContent className='top-card' sx={{ padding: { xs: '30px', sm: 'origin' }}}>
           <Grid
             container
-            sx={{ justifyContent: { xs: 'space-between', sm: 'center', md:'initial' } }}
           >
             <Grid
               item
               direction="column"              
               alignItems="center"
-              sx={{ marginRight: { xs:'0px', sm: '10px' } }}
+              sx={{ marginRight: '10px' }}
             >
               <Icon num={num} />
             </Grid>
-            <Grid item justifyContent="center" alignItems="center">
-              <Grid container sx={{ flexDirection: { xs: 'row', sm: 'column' } }} alignItems="center" >
-                <Grid item sx={{ marginRight: { xs: '10px', sm: 'initial' } }}>
+            <Grid item  alignItems="center">
+              <Grid container flexDirection={'column'} >
+                <Grid item >
                   <span className='text-0' >{text}</span>
                 </Grid>
                 <Grid item >
@@ -111,7 +110,7 @@ const Playground = (props) => {
               className='jbbodytextfield'
             />
           </Grid>
-          <Grid item md={12} lg={6} >
+          <Grid item md={12} lg={6} sx={{paddingTop:'15px', paddingBottom:'15px'}}>
             <FormControl >
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
@@ -163,7 +162,7 @@ const Playground = (props) => {
 
 
       <Divider className='jbdivider' />
-      <Grid container direction='row' className='jbbodybox2' >
+      <Grid container direction='row' className='jbbodybox2' sx={{paddingBottom:'15px'}} >
         <Grid item xm={12} sm={12} md={6} className='jbbodysubbox'>
           <p className='jbtitle2'>EARNED REWARD</p>
           <p><label className='jbtitle1'>{numFormatter(claimable)}</label> INME</p>
@@ -173,7 +172,7 @@ const Playground = (props) => {
           <p><label className='jbtitle1'>{numFormatter(userBalance)}</label> INME</p>
         </Grid>
       </Grid>
-      <Button variant="contained" disableElevation sx={{ width: { xs: '100%', sm: 'fit-content' }, marginTop: { xs: '0px' } }} className='jbbodybutton unstake' onClick={unstake}>UNSTAKE</Button>
+      <Button variant="contained" disableElevation sx={{ width: { xs: '100%', sm: 'fit-content' }, marginTop: { xs: '10px' } }} className='jbbodybutton unstake' onClick={unstake}>UNSTAKE</Button>
     </Container>
   );
 }

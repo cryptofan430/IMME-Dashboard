@@ -111,7 +111,7 @@ function Navbar(props) {
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton sx={{ textAlign: 'center' }}>
-            <Button className='connectBtn' sx={{ color: '#fff', marginTop: '5px', marginTop: '5px' }} onClick={connectWallet}>
+            <Button className='connectBtn' onClick={connectWallet}>
               {accountAddress ? `${accountAddress.slice(0, 4)}...
                 ${accountAddress.slice(38, 42)}` : 'Connect'}
             </Button>
