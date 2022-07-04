@@ -93,8 +93,8 @@ input{
 .top-card .icon-wrapper{
   background: #1E2F64;
   border-radius: 13px;
-  margin-top: 3px;
-  margin-right: 20px;
+  /* margin-top: 3px;
+  margin-right: 20px; */
   
 }
 .top-card .icon-wrapper img{

@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import { InputAdornment, TextField, Divider } from "@material-ui/core";
 
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 import Web3Context from '../../store/web3-context';
 
 import StakingContract from '../../artifacts/contracts/Staking.sol/ImmeStaking.json';
@@ -34,55 +34,58 @@ const sTime6 = 180 * 24;
 const sTime7 = 360 * 24;
 const sTime8 = 720 * 24;
 
-const Icon = (props) =>{
-  const {num} = props
-  return(
+const Icon = (props) => {
+  const { num } = props
+  return (
     <div className='icon-wrapper' >
-      <img src={process.env.PUBLIC_URL + `/${num}.png`} alt="Logo"/> 
+      <img src={process.env.PUBLIC_URL + `/${num}.png`} alt="Logo" />
     </div>
   )
 }
 
 function OutlinedCard(props) {
-  const {text, num, value} = props;
+  const { text, num, value } = props;
   return (
     <Box >
       <Card variant="outlined">
-        <CardContent className='top-card'>
+        <CardContent className='top-card' sx={{ padding: { xs: '30px', sm: 'origin' }}}>
           <Grid
             container
-            justifyContent="center"
+            sx={{ justifyContent: { xs: 'space-between', sm: 'center', md:'initial' } }}
           >
             <Grid
               item
-              direction="column"
-              justifyContent="center"
+              direction="column"              
               alignItems="center"
+              sx={{ marginRight: { xs:'0px', sm: '10px' } }}
             >
               <Icon num={num} />
             </Grid>
-            <Grid item >
-              <Grid item >
-                <span className='text-0'>{text}</span>  
-              </Grid>
-              <Grid item >
-                <span className='text-1'>
-                  {num == 2 ? `$${value.toLocaleString()}` : `${value.toLocaleString()}`}
-                </span>
+            <Grid item justifyContent="center" alignItems="center">
+              <Grid container sx={{ flexDirection: { xs: 'row', sm: 'column' } }} alignItems="center" >
+                <Grid item sx={{ marginRight: { xs: '10px', sm: 'initial' } }}>
+                  <span className='text-0' >{text}</span>
+                </Grid>
+                <Grid item >
+                  <span className='text-1'>
+                    {num == 2 ? `$${value.toLocaleString()}` : `${value.toLocaleString()}`}
+                  </span>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </CardContent> 
+        </CardContent>
       </Card>
     </Box>
   );
 }
 
+
 const Playground = (props) => {
-  const {balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake, working, value, handleChange} = props;
+  const { balance, stake, unstake, onChange, userBalance, claimable, errorText, setMax, amountToStake, working, value, handleChange } = props;
   return (
     <Container className="jbbodybox">
-      <Grid container direction='row' sx={{marginTop:'30px'}}>
+      <Grid container direction='row' sx={{ marginTop: '30px' }}>
         <Grid item sm={12} md={4} >
           <p className='jbtitle1'>Stake</p>
           <p className='jbtitle0'>YOUR ACCOUNT BALANCE</p>
@@ -90,15 +93,15 @@ const Playground = (props) => {
         </Grid>
         <Grid item direction='column' sm={12} md={8}>
           <Grid item md={12} lg={6} >
-            <TextField 
+            <TextField
               id=''
               label=''
               variant="outlined"
               placeholder='BUSD'
               sx={{ color: 'white' }}
               fullWidth
-              error = {errorText}
-              errorText= {errorText}
+              error={errorText}
+              errorText={errorText}
               value={amountToStake}
               onChange={onChange}
               // type='number'
@@ -120,62 +123,63 @@ const Playground = (props) => {
               >
                 <Grid item xs={6} sm={4} lg={3}>
                   <FormControlLabel value="7"
-                    control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217"}}}/>} 
-                    sx={{whiteSpace: 'nowrap'}}
+                    control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217" } }} />}
+                    sx={{ whiteSpace: 'nowrap' }}
                     label="7 days for 1.5%" />
                 </Grid>
                 <Grid item xs={6} sm={4} lg={3}>
-                  <FormControlLabel value="14" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="14 days for 3.5%" 
-                  sx={{whiteSpace: 'nowrap'}}/>
+                  <FormControlLabel value="14" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="14 days for 3.5%"
+                    sx={{ whiteSpace: 'nowrap' }} />
                 </Grid>
                 <Grid item xs={6} sm={4} lg={3}>
-                  <FormControlLabel value="30" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="30 days for 7.5%" 
-                  sx={{whiteSpace: 'nowrap'}}/>
+                  <FormControlLabel value="30" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="30 days for 7.5%"
+                    sx={{ whiteSpace: 'nowrap' }} />
                 </Grid>
                 <Grid item xs={6} sm={4} lg={3}>
-                  <FormControlLabel value="60" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="60 days for 15%" 
-                  sx={{whiteSpace: 'nowrap'}}/>
+                  <FormControlLabel value="60" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="60 days for 15%"
+                    sx={{ whiteSpace: 'nowrap' }} />
                 </Grid>
-                
+
                 <Grid item xs={6} sm={4} lg={3}>
-                  <FormControlLabel value="90" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="90 days for 25%" />
-                </Grid>
-                <Grid item xs={6} sm={4} lg={3}>
-                <FormControlLabel value="180" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="180 days for 75%" />
+                  <FormControlLabel value="90" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="90 days for 25%"
+                    sx={{ whiteSpace: 'nowrap' }} />
                 </Grid>
                 <Grid item xs={6} sm={4} lg={3}>
-                <FormControlLabel value="360" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="360 days for 200%" />
+                  <FormControlLabel value="180" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="180 days for 75%" sx={{ whiteSpace: 'nowrap' }} />
                 </Grid>
                 <Grid item xs={6} sm={4} lg={3}>
-                  <FormControlLabel value="720" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': {color: "#FAB217",}, }}/>}  label="720 days for 500%" />
+                  <FormControlLabel value="360" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="360 days for 200%" sx={{ whiteSpace: 'nowrap' }} />
                 </Grid>
-                
+                <Grid item xs={6} sm={4} lg={3}>
+                  <FormControlLabel value="720" control={<Radio sx={{ color: '#0B184F', '&.Mui-checked': { color: "#FAB217", }, }} />} label="720 days for 500%" sx={{ whiteSpace: 'nowrap' }} />
+                </Grid>
+
               </RadioGroup>
             </FormControl>
           </Grid>
-          <Button variant="contained" disableElevation sx={{width: {xs: '100%', sm: 'fit-content'}}} className='jbbodybutton stake' onClick={stake} disabled={working}>{`STAKE`}</Button>
+          <Button variant="contained" disableElevation sx={{ width: { xs: '100%', sm: 'fit-content' }, }} className='jbbodybutton stake' onClick={stake} disabled={working}>{`STAKE`}</Button>
         </Grid>
       </Grid>
-      
-        
+
+
       <Divider className='jbdivider' />
       <Grid container direction='row' className='jbbodybox2' >
-        <Grid item xm={12} sm={12} md={6}  className='jbbodysubbox'>
+        <Grid item xm={12} sm={12} md={6} className='jbbodysubbox'>
           <p className='jbtitle2'>EARNED REWARD</p>
-          <p><label className='jbtitle1'>{numFormatter(claimable) }</label> INME</p>
+          <p><label className='jbtitle1'>{numFormatter(claimable)}</label> INME</p>
         </Grid>
-        <Grid item xm={12} sm={12} md={6}  className='jbbodysubbox'>
+        <Grid item xm={12} sm={12} md={6} className='jbbodysubbox'>
           <p className='jbtitle2'>CURRENTLY STAKING</p>
-          <p><label className='jbtitle1'>{numFormatter(userBalance) }</label> INME</p>
-        </Grid>          
+          <p><label className='jbtitle1'>{numFormatter(userBalance)}</label> INME</p>
+        </Grid>
       </Grid>
-      <Button variant="contained" disableElevation sx={{width: {xs: '100%', sm: 'fit-content'}, marginTop: {xs: '0px'}}} className='jbbodybutton unstake'  onClick={ unstake}>UNSTAKE</Button>
-  </Container>
+      <Button variant="contained" disableElevation sx={{ width: { xs: '100%', sm: 'fit-content' }, marginTop: { xs: '0px' } }} className='jbbodybutton unstake' onClick={unstake}>UNSTAKE</Button>
+    </Container>
   );
 }
 
 export default function Staking() {
-  
+
   const [depositAmount, setDepositAmount] = useState();
   const [staked, setStaked] = useState(0);
   const [rewards, setRewards] = useState(0);
@@ -189,7 +193,7 @@ export default function Staking() {
   const [amountToStake, setAmountToStake] = useState(null);
   const [working, setWorking] = useState(false);
 
-  const web3Ctx = useContext(Web3Context); 
+  const web3Ctx = useContext(Web3Context);
 
   const [value, setValue] = React.useState(7);
 
@@ -197,116 +201,116 @@ export default function Staking() {
     setValue(event.target.value);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     //connecting to ethereum blockchain
-    if(!web3Ctx.provider)
+    if (!web3Ctx.provider)
       return;
     const ethEnabled = async () => {
       fetchDataFromBlockchain();
     };
     ethEnabled();
-  },[web3Ctx.provider])
+  }, [web3Ctx.provider])
 
-  useEffect(()=>{
-    if(!web3Ctx.provider)
+  useEffect(() => {
+    if (!web3Ctx.provider)
       return;
-    const interval=setInterval(()=>{
+    const interval = setInterval(() => {
       updateReward()
-     },5000)
-       
-     return()=>clearInterval(interval)
-  },[web3Ctx.provider])
-  
-  const updateReward = async() =>{
-    if(web3Ctx.provider){
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [web3Ctx.provider])
+
+  const updateReward = async () => {
+    if (web3Ctx.provider) {
       const web3 = new Web3(web3Ctx.provider);
       const contract = new web3.eth.Contract(StakingContract.abi, stakingAddress);
       const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
 
       let block = await provider.getBlock();
       let timestamp = block.timestamp;
-      
+
       const signer = provider.getSigner()
-      
+
       const accounts = await ethereum.request({
         method: 'eth_requestAccounts',
       });
       let account = accounts[0];
-      
+
       const origin = await contract.methods.stakers(account).call() // works
-      
-      
+
+
       let stime = (fromHours(Number(timestamp) - Number(origin.startTime)));
       const total = Number(ethers.utils.formatEther(origin.balance).toString());
-      
-      let earned 
 
-      if(stime >= sTime8) {
-          earned = total * 5;
+      let earned
+
+      if (stime >= sTime8) {
+        earned = total * 5;
       }
-      else if(stime >= sTime7) {
-          earned = total * (2 + 3 * (stime - sTime7) / (360 * 24));
+      else if (stime >= sTime7) {
+        earned = total * (2 + 3 * (stime - sTime7) / (360 * 24));
       }
-      else if(stime >= sTime6) {
-          earned = total * (0.75 + 1.25 * (stime - sTime6) / (180 * 24));
-          
+      else if (stime >= sTime6) {
+        earned = total * (0.75 + 1.25 * (stime - sTime6) / (180 * 24));
+
       }
-      else if(stime >= sTime5) {
-          earned = total * (0.25 + 0.5 * (stime - sTime5) / (90 * 24));
-          
+      else if (stime >= sTime5) {
+        earned = total * (0.25 + 0.5 * (stime - sTime5) / (90 * 24));
+
       }
-      else if(stime >= sTime4) {
-          earned = total * (0.15 + 0.1 * (stime - sTime4) / (30 * 24));
-          
+      else if (stime >= sTime4) {
+        earned = total * (0.15 + 0.1 * (stime - sTime4) / (30 * 24));
+
       }
-      else if(stime >= sTime3) {
-          earned = total * (0.075 + 0.075 * (stime - sTime3) / (30 * 24));
-          
+      else if (stime >= sTime3) {
+        earned = total * (0.075 + 0.075 * (stime - sTime3) / (30 * 24));
+
       }
-      else if(stime >= sTime2) {
-          earned = total * (0.035 + 0.04 * (stime - sTime2) / (16 * 24));
-          
+      else if (stime >= sTime2) {
+        earned = total * (0.035 + 0.04 * (stime - sTime2) / (16 * 24));
+
       }
-      else if(stime >= sTime1){
-          earned = total * (0.015 + 0.02 * (stime - sTime1) / (7 * 24));
-      
+      else if (stime >= sTime1) {
+        earned = total * (0.015 + 0.02 * (stime - sTime1) / (7 * 24));
+
       }
-      else{
-          earned = total * (0 + 0.015 * (stime ) / (7 * 24));
+      else {
+        earned = total * (0 + 0.015 * (stime) / (7 * 24));
       }
 
       setClaimable(earned);
       console.log(earned, '------');
 
     }
-    
-    
+
+
   }
 
-  const setMax = () =>{
+  const setMax = () => {
     setAmountToStake(balance);
     setDepositAmount(balance);
     setErrorText('');
   }
   const onChange = (event) => {
-    
+
     const numberRegEx = /\-?\d*\.?\d{1,2}/;
-  
-        if (event.target.value === '' || !numberRegEx.test(event.target.value.toLowerCase())) {
-            setErrorText("invalid format");  
-            
-        }
-        else{
-          setDepositAmount(event.target.value)
-          setErrorText("");
-        }
+
+    if (event.target.value === '' || !numberRegEx.test(event.target.value.toLowerCase())) {
+      setErrorText("invalid format");
+
+    }
+    else {
+      setDepositAmount(event.target.value)
+      setErrorText("");
+    }
 
   };
 
   const fetchDataFromBlockchain = async () => {
-    if(!web3Ctx.provider)
+    if (!web3Ctx.provider)
       return;
-    const provider = new ethers.providers.Web3Provider(web3Ctx.provider)  
+    const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
     const signer = provider.getSigner()
     // const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
     const contract = new ethers.Contract(stakingAddress, [
@@ -315,12 +319,12 @@ export default function Staking() {
       'function totalRewards() public view returns (uint256)',
       'function getUserBalance(address) public view returns (uint256)',
       'function getClaimable(address) public view returns (uint256)'
-   ], provider)
+    ], provider)
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts',
     });
     let account = accounts[0];
-    
+
     const tx1 = await contract.totalUsers();
     const tx2 = await contract.totalStaked();
     const tx3 = await contract.totalRewards();
@@ -332,34 +336,34 @@ export default function Staking() {
     setRewards(ethers.utils.formatEther(tx3.toString()));
     setUserBalance(ethers.utils.formatEther(tx4.toString()));
     setAccount(account);
-  
-    const stakingContract = new ethers.Contract(sTokenAddress,StakingToken.abi, signer)
+
+    const stakingContract = new ethers.Contract(sTokenAddress, StakingToken.abi, signer)
     const balance = ethers.utils.formatEther((await stakingContract.balanceOf(account))).toString();
     setBalance(balance);
-    
+
   }
 
   async function stake() {
-    if(errorText){
+    if (errorText) {
       window.alert('Please input amount to stake');
       return;
     }
-    if(!web3Ctx.provider){
+    if (!web3Ctx.provider) {
       window.alert('Please Connect Wallet');
     }
-    else{
+    else {
       const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
       console.log('provider: ', provider);
 
       const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
-      const stakingContract = new ethers.Contract(sTokenAddress,StakingToken.abi, signer)
-      
+      const stakingContract = new ethers.Contract(sTokenAddress, StakingToken.abi, signer)
+
       try {
         setWorking(true);
-        const tx = await stakingContract.approve(stakingAddress,ethers.utils.parseUnits(depositAmount,18));
+        const tx = await stakingContract.approve(stakingAddress, ethers.utils.parseUnits(depositAmount, 18));
         await tx.wait();
-        const tx1 = await contract.staking(ethers.utils.parseUnits(depositAmount,18))
+        const tx1 = await contract.staking(ethers.utils.parseUnits(depositAmount, 18))
         await tx1.wait();
         console.log("Deposit")
         fetchDataFromBlockchain();
@@ -370,10 +374,10 @@ export default function Staking() {
     }
   }
   async function unstake() {
-    if(!web3Ctx.provider){
+    if (!web3Ctx.provider) {
       window.alert('Please Connect Wallet');
     }
-    else{
+    else {
       const provider = new ethers.providers.Web3Provider(web3Ctx.provider)
       const signer = provider.getSigner()
       const contract = new ethers.Contract(stakingAddress, StakingContract.abi, signer)
@@ -382,48 +386,48 @@ export default function Staking() {
         fetchDataFromBlockchain();
         console.log("unstake")
       } catch (err) {
-        
+
         window.alert(err.error.data.message);
         console.log("Error: ", err)
       }
-    }    
+    }
   }
 
-  
-  
+
+
   return (
-    <div className="staking">      
+    <div className="staking">
       <Container >
-        <Grid container spacing={2} 
-        sx={{flexDirection: {xs: 'column', sm: 'row'}}}
+        <Grid container spacing={2}
+          sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
         >
           <Grid item xs={12} sm={4}>
-            <OutlinedCard num = {1} text={"Total Staked"} value={numFormatter(staked)}/>  
+            <OutlinedCard num={1} text={"Total Staked"} value={numFormatter(staked)} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <OutlinedCard num = {2} text={"Total Rewards"} value={numFormatter(rewards)}/>
+            <OutlinedCard num={2} text={"Total Rewards"} value={numFormatter(rewards)} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <OutlinedCard num = {3} text={"Total Users"} value={total}/>
+            <OutlinedCard num={3} text={"Total Users"} value={total} />
           </Grid>
         </Grid>
-    
-      <Playground 
-          balance = {balance} 
-          stake = {stake} 
-          unstake = {unstake} 
-          onChange = {onChange} 
-          userBalance = {userBalance}
-          claimable = {claimable}
-          errorText = {errorText} 
-          setMax = {setMax} 
-          amountToStake = {amountToStake} 
-          working = {working}
-          value = {value} 
-          handleChange = {handleChange}
-          />
+
+        <Playground
+          balance={balance}
+          stake={stake}
+          unstake={unstake}
+          onChange={onChange}
+          userBalance={userBalance}
+          claimable={claimable}
+          errorText={errorText}
+          setMax={setMax}
+          amountToStake={amountToStake}
+          working={working}
+          value={value}
+          handleChange={handleChange}
+        />
       </Container>
-        
+
     </div>
   );
 }
